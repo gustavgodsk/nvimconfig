@@ -20,6 +20,12 @@ vim.o.list = true           -- Show <tab> and trailing spaces
 vim.o.confirm = true        -- Ask for confirmation
 vim.o.updatetime = 50       -- update every 50ms
 vim.o.virtualedit = 'all'   -- allows cursor to be anywhere
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
+vim.o.expandtab = true
+vim.o.autoindent = true
+vim.o.smartindent = true
+
 
 -- Sync clipboard between OS and Neovim
 vim.api.nvim_create_autocmd('UIEnter', {
@@ -124,7 +130,13 @@ require("lazy").setup({
       vim.cmd.colorscheme("tokyonight")
     end,
   },
-
+  {
+    "rebelot/kanagawa.nvim",
+    priority = 1001,
+    config = function()
+      vim.cmd.colorscheme("kanagawa")
+    end,
+  },        
   -- Core LSP configuration
   { "neovim/nvim-lspconfig" },
 
