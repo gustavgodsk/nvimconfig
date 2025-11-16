@@ -7,9 +7,10 @@ return {
     build = ":TSUpdate",
     config = function()
       require("nvim-treesitter.configs").setup({
-        ensure_installed = { "c_sharp", "lua", "vim", "xml" },
+        ensure_installed = { "c_sharp", "lua", "vim", "xml", "java" },
         highlight = {
           enable = true,
+          additional_vim_regex_highlighting = false,
         },
         auto_install = true,
       })
@@ -21,19 +22,28 @@ return {
 
   -- Helper to install LSPs
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     config = function()
-      require("mason").setup()
+      require("mason").setup({
+          ensure_installed = {
+              --C# tools
+              "csharp_ls", 
+              -- "netcoredbg", -- custom setup in lang-csharp.lua 
+
+              -- Java tools
+              "jdtls",
+              "java-debug-adapter",
+              "java-test",
+          }
+      })
     end,
   },
 
   -- "Glue" plugin to connect mason and lspconfig
   {
-    "williamboman/mason-lspconfig.nvim",
-    dependencies = { "williamboman/mason.nvim", "hrsh7th/nvim-cmp", "hrsh7th/cmp-nvim-lsp" },
+    "mason-org/mason-lspconfig.nvim",
+    dependencies = { "mason-org/mason.nvim", "hrsh7th/nvim-cmp", "hrsh7th/cmp-nvim-lsp" },
     config = function()
-      -- THIS IS WHERE WE MOVE YOUR LSP KEYMAPS
-      -- 1. Define the on_attach function
       local on_attach = function(client, bufnr)
         local opts = { buffer = bufnr }
         vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
@@ -55,12 +65,15 @@ return {
             end,
           })
         end
+        if client.supports_method("textDocument/semanticTokens") then
+            vim.lsp.buf.semantic_tokens_full()
+        end
       end
 
-      -- 2. Define capabilities
+      vim.g.my_lsp_on_attach = on_attach
+
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-      -- 3. Setup mason-lspconfig
       require("mason-lspconfig").setup({
         ensure_installed = { "csharp_ls" },
         handlers = {
@@ -68,10 +81,17 @@ return {
             -- 4. Pass on_attach and capabilities to *all* servers
             require("lspconfig")[server_name].setup({
               capabilities = capabilities,
-              on_attach = on_attach, -- This is the crucial change
+              on_attach = vim.g.my_lsp_on_attach, -- This is the crucial change
             })
           end,
-        },
+          --
+          -- This tells mason-lspconfig: "Do NOT run the default
+          -- setup for 'jdtls', because we have a special plugin
+          -- (nvim-jdtls in lang-java.lua) that will handle it."
+          ["jdtls"] = function()
+          -- Do nothing. Let lang-java.lua handle it.
+          end,
+        }
       })
     end,
   },
@@ -109,5 +129,5 @@ return {
         }),
       })
     end,
-  },
+  }
 }
