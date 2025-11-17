@@ -5,13 +5,18 @@ return {
     "folke/tokyonight.nvim",
     priority = 1000,
     config = function()
-      -- We set tokyonight as the default
-      vim.cmd.colorscheme("tokyonight")
+        vim.cmd.colorscheme("tokyonight")
     end,
   },
   {
     "rebelot/kanagawa.nvim",
     priority = 1001,
-    -- No config needed, we'll load it manually if we want
+    config = function()
+      -- We set tokyonight as the default
+      --vim.cmd.colorscheme("kanagawa")
+      --vim.cmd.colorscheme("kanagawa-dragon") 
+      --vim.cmd.colorscheme("kanagawa-wave") -- good
+      -- vim.cmd.colorscheme("kanagawa-lotus") -- flashbang, do not try
+    end,
   },
 }
