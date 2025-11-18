@@ -45,7 +45,7 @@ return {
       { "<S-F5>", function() require("dap").terminate() end, desc = "DAP: Stop Session" },
       { "<leader>dbc", function() require("dap").toggle_breakpoint_condition() end, desc = "DAP: Breakpoint Condition" },
       { "<leader>dr", function() require("dapui").toggle() end, desc = "DAP: Toggle UI" },
-      { "<leader>dw", function() require("dapui").eval(nil, { enter = true }) end, desc = "DAP: Add to Watch" },
+      { "<leader>dw", function() require("dapui").eval(nil, { enter = true }) end, mode = {"n", "v"}, desc = "DAP: Add to Watch" },
     },
     config = function()
       local dap = require("dap")

@@ -41,6 +41,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = "Show Line Diagnostic", buffer = ev.buf })
     vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = "Previous Diagnostic", buffer = ev.buf })
     vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = "Next Diagnostic", buffer = ev.buf })
+    vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Actions", buffer = ev.buf })
     
     -- Format on save
     local client = vim.lsp.get_client_by_id(ev.data.client_id)
