@@ -91,14 +91,12 @@ return {
     jdtls.start_or_attach({
       cmd = jdtls_cmd,
       
-      -- This tells jdtls to use the DAP settings we defined above
       on_attach = function(client, bufnr)
-          vim.g.my_lsp_on_attach(client, bufnr)
+        -- REMOVED: vim.g.my_lsp_on_attach(client, bufnr)
+        -- The keymaps are now handled by config/keymaps.lua automatically!
+        
         -- This attaches the jdtls-specific DAP configuration
         jdtls.setup_dap({ hotcodereplace = "auto" })
-        
-        -- Your global LSP keymaps (gd, K, etc.) will attach automatically
-        -- from your 02-lsp.lua file.
         
         -- Add Java-specific keymaps here
         local map = vim.keymap.set
@@ -113,7 +111,6 @@ return {
         map("n", "<leader>jT", jdtls.test_nearest_method, opts)
       end,
       
-      -- How jdtls finds the root of your project
       root_dir = jdtls.setup.find_root({ ".git", "mvnw", "gradlew", "pom.xml", "build.gradle" }),
     })
     
