@@ -2,17 +2,31 @@
 
 return {
   -- Treesitter
-  {
-    "nvim-treesitter/nvim-treesitter",
-    build = ":TSUpdate",
-    config = function()
-      require("nvim-treesitter.configs").setup({
-        ensure_installed = { "c_sharp", "lua", "vim", "xml", "java" },
-        highlight = { enable = true, additional_vim_regex_highlighting = false },
-        auto_install = true,
-      })
-    end,
-  },
+    {
+        "nvim-treesitter/nvim-treesitter",
+        event = { "BufReadPre", "BufNewFile" }, -- Load immediately when opening a file
+        build = ":TSUpdate",
+        config = function()
+            -- 1. DEFINE THE XAML LOGIC HERE (Moved from lang-csharp.lua)
+            vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+                pattern = '*.xaml',
+                callback = function()
+                    vim.bo.filetype = 'xml'
+                end,
+            })
+
+            -- 2. RUN THE SETUP (This was previously being overwritten/deleted)
+            require("nvim-treesitter.configs").setup({
+                ensure_installed = { "c_sharp", "lua", "vim", "xml", "java" },
+                highlight = { 
+                    enable = true, -- THIS is what turns on the highlighting
+                    additional_vim_regex_highlighting = false 
+                },
+                indent = { enable = true },
+                auto_install = true,
+            })
+        end,
+    },
 
   -- Core LSP configuration
   { "neovim/nvim-lspconfig" },
@@ -54,6 +68,7 @@ return {
   {
     "hrsh7th/nvim-cmp",
     dependencies = { "hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-buffer", "hrsh7th/cmp-path", "L3MON4D3/LuaSnip", "saadparwaiz1/cmp_luasnip" },
+        event = "InsertEnter",
     config = function()
       local cmp = require("cmp")
       local luasnip = require("luasnip")
@@ -73,5 +88,29 @@ return {
         }),
       })
     end,
-  }
+  },
+    -- 7. INDENT BLANKLINE (Your Purple Line Fix) 
+    { 
+        "lukas-reineke/indent-blankline.nvim", 
+        dependencies = { "nvim-treesitter/nvim-treesitter" }, 
+        event = { "BufReadPre", "BufNewFile" }, 
+        main = "ibl", 
+        opts = { 
+            indent = { 
+                char = "│", 
+                highlight = "IblIndent" }, 
+            scope = { 
+                enabled = true, 
+                show_start = false, 
+                show_end = false, 
+                highlight = "IblScope", 
+                priority = 500, 
+            }, 
+        }, 
+        config = function(_, opts) 
+            vim.api.nvim_set_hl(0, "IblIndent", { fg = "#3b4261" }) 
+            vim.api.nvim_set_hl(0, "IblScope", { fg = "#5b627f", bold = false }) 
+            require("ibl").setup(opts) 
+        end, 
+    },
 }

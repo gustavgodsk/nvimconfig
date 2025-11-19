@@ -1,18 +1,6 @@
  -- ~/.config/nvim/lua/plugins/lang-csharp.lua
 
 return {
-  -- .xaml filetype association
-  {
-    "nvim-treesitter/nvim-treesitter", -- We're just adding a config to an existing plugin
-    config = function()
-      vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
-        pattern = '*.xaml',
-        callback = function()
-          vim.bo.filetype = 'xml'
-        end,
-      })
-    end,
-  },
 
   -- DAP installer
   {
