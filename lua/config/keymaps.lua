@@ -42,6 +42,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = "Previous Diagnostic", buffer = ev.buf })
     vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = "Next Diagnostic", buffer = ev.buf })
     vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Actions", buffer = ev.buf })
+
+ vim.keymap.set("n", "<leader>tc", function()
+  vim.cmd("!typst compile %:p %:r.pdf")
+end, { desc = "Typst: Force Compile PDF" })
     
     -- Format on save
     local client = vim.lsp.get_client_by_id(ev.data.client_id)

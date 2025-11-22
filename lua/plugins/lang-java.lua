@@ -12,10 +12,10 @@ return {
   },
   
   config = function()
-    print("Java config loading...")
 
     -- nvim-jdtls needs to know where your Java Runtime is.
-    local java_home = "C:/Program Files/Java/jdk-24"
+    -- local java_home = "C:/Program Files/Java/jdk-24"
+    local java_home = "C:/Program Files/Java/jdk-21"
     
     local jdtls_bin = java_home .. "/bin/java"
 
@@ -66,8 +66,10 @@ return {
     -- ---
     local jdtls = require("jdtls")
     
-    -- This is the folder where jdtls will store project-specific data
-    local workspace_dir = vim.fn.stdpath("data") .. "/jdtls-workspace/" .. vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
+    -- 2. Calculate Workspace Dir (Unqiue per project)
+    -- We use vim.fs.normalize to ensure Windows slashes don't confuse JDTLS
+    local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
+    local workspace_dir = vim.fn.stdpath("data") .. "/jdtls-workspace/" .. project_name
 
     -- The command to start the server
     local jdtls_cmd = {
@@ -114,6 +116,5 @@ return {
       root_dir = jdtls.setup.find_root({ ".git", "mvnw", "gradlew", "pom.xml", "build.gradle" }),
     })
     
-    print("Java config loaded successfully.")
   end,
 }

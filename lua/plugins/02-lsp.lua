@@ -7,7 +7,7 @@ return {
         event = { "BufReadPre", "BufNewFile" }, -- Load immediately when opening a file
         build = ":TSUpdate",
         config = function()
-            -- 1. DEFINE THE XAML LOGIC HERE (Moved from lang-csharp.lua)
+            -- treat xaml files like xml
             vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
                 pattern = '*.xaml',
                 callback = function()
@@ -15,11 +15,11 @@ return {
                 end,
             })
 
-            -- 2. RUN THE SETUP (This was previously being overwritten/deleted)
+            -- run setup
             require("nvim-treesitter.configs").setup({
-                ensure_installed = { "c_sharp", "lua", "vim", "xml", "java" },
+                ensure_installed = { "c_sharp", "lua", "vim", "xml", "java", "typst" },
                 highlight = { 
-                    enable = true, -- THIS is what turns on the highlighting
+                    enable = true,
                     additional_vim_regex_highlighting = false 
                 },
                 indent = { enable = true },
@@ -36,33 +36,44 @@ return {
     "mason-org/mason.nvim",
     config = function()
       require("mason").setup({
-          ensure_installed = { "csharp_ls", "jdtls", "java-debug-adapter", "java-test" }
+          ensure_installed = { "csharp_ls", "jdtls", "java-debug-adapter", "java-test", "tinymist" }
       })
     end,
   },
 
   -- Mason-LSPConfig
-  {
-    "mason-org/mason-lspconfig.nvim",
-    dependencies = { "mason-org/mason.nvim", "hrsh7th/nvim-cmp", "hrsh7th/cmp-nvim-lsp" },
-    config = function()
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+    {
+        "mason-org/mason-lspconfig.nvim",
+        dependencies = { "mason-org/mason.nvim", "hrsh7th/nvim-cmp", "hrsh7th/cmp-nvim-lsp" },
+        config = function()
+            local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-      require("mason-lspconfig").setup({
-        ensure_installed = { "csharp_ls" },
-        handlers = {
-          function(server_name)
-            require("lspconfig")[server_name].setup({
-              capabilities = capabilities,
-              -- We do NOT need to pass on_attach here anymore.
-              -- The autocmd in keymaps.lua handles it automatically.
+            require("mason-lspconfig").setup({
+                ensure_installed = { "csharp_ls", "tinymist" },
+                handlers = {
+                    -- Default handler (applies to csharp_ls)
+                    function(server_name)
+                        require("lspconfig")[server_name].setup({
+                            capabilities = capabilities,
+                        })
+                    end,
+                    ["jdtls"] = function() end, -- Handled by lang-java.lua
+                    -- 3. TINYMIST (Typst) Specific Configuration
+                    -- This is where the config from the docs belongs!
+                    ["tinymist"] = function()
+                        require("lspconfig")["tinymist"].setup({
+                            capabilities = capabilities,
+                            settings = {
+                                formatterMode = "typstyle",
+                                exportPdf = "onSave", 
+                                semanticTokens = "disable",
+                            }
+                        })
+                    end,
+                }
             })
-          end,
-          ["jdtls"] = function() end, -- Handled by lang-java.lua
-        }
-      })
-    end,
-  },
+        end,
+    },
 
   -- Autocompletion (nvim-cmp)
   {

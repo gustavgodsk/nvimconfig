@@ -8,7 +8,8 @@ return {
     config = function()
       require("lualine").setup({
         options = {
-          theme = "tokyonight",
+          -- theme = "tokyonight",
+            theme = "auto",
         },
         sections = {
           lualine_c = { "filename" },
