@@ -8,6 +8,12 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+ vim.filetype.add({
+  extension = {
+    xaml = "xml",
+  },
+})
+
 -- Create a command `:GitBlameLine`
 vim.api.nvim_create_user_command('GitBlameLine', function()
   local line_number = vim.fn.line('.')
