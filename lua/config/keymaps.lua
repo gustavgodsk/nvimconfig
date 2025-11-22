@@ -16,6 +16,13 @@ vim.keymap.set({ 'n' }, '<A-l>', '<C-w>l')
 -- Make <Esc> clear the search highlight
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR><Esc>', { desc = 'Clear search highlight' })
 
+vim.keymap.set("n", "<leader>rr", 
+    function()
+        vim.cmd("!dotnet run --project AutoFordelerV2")
+    end,
+    { desc = "Build and run AutoFordelerV2" }
+)
+
  -- ============================================================================
 --  LSP Keymaps (Global)
 -- ============================================================================
