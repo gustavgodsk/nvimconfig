@@ -1,7 +1,5 @@
 -- ~/.config/nvim/lua/config/options.lua
 
- local opt = vim.o --what does this do?
-
 vim.o.number = true         -- Show line numbers
 vim.o.relativenumber = true -- Use relative line numbers
 vim.o.splitbelow = true     -- On split, new window appears at bottom
@@ -20,7 +18,32 @@ vim.o.expandtab = true
 vim.o.autoindent = true
 vim.o.smartindent = true
 
+ -- Define a global Lua function to format the fold text
+_G.CustomFoldText = function()
+    -- Get the first line of the fold block
+    local line = vim.fn.getline(vim.v.foldstart)
 
+    -- Calculate the total number of lines in the fold
+    local lines_count = vim.v.foldend - vim.v.foldstart + 1
+
+    -- local text = line .. "    " .. lines_count .. " lines "
+    local text = line .. "  ...  " .. lines_count .. " lines "
+
+    return text
+end
+
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "cs",
+    callback = function()
+        -- These options will only apply to C# files
+        vim.opt_local.foldmethod = "expr"
+        vim.opt_local.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+        vim.opt_local.foldlevel = 1
+        vim.opt_local.fillchars:append({ fold = " " })
+        vim.opt_local.foldtext = "v:lua.CustomFoldText()"
+    end,
+})
+--
 -- Sync clipboard between OS and Neovim
 vim.api.nvim_create_autocmd('UIEnter', {
   callback = function()

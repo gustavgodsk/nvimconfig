@@ -21,6 +21,21 @@ vim.api.nvim_create_user_command('GitBlameLine', function()
   print(vim.fn.system({ 'git', 'blame', '-L', line_number .. ',+1', filename }))
 end, { desc = 'Print the git blame for the current line' })
 
+vim.api.nvim_create_autocmd("ColorScheme", {
+    pattern = "*",
+    callback = function()
+        -- 1. Link 'Folded' to 'Comment' so the color of folded blocks is darker
+        vim.api.nvim_set_hl(0, "Folded", { link = "Comment" })
+
+        -- 2. (Optional) Remove the background color
+        -- Many themes put a blocky background color behind folds. 
+        -- This line ensures the background is transparent (blends with the editor).
+        -- We have to run this AFTER linking, to override the link's background.
+        local comment_fg = vim.api.nvim_get_hl(0, { name = "Comment" }).fg
+        vim.api.nvim_set_hl(0, "Folded", { fg = comment_fg, bg = "NONE" }) 
+    end,
+})
+
 --vim.api.nvim_create_autocmd("ColorScheme", {
 --  pattern = "*", -- Applies to all themes
 --  callback = function()
