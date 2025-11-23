@@ -23,6 +23,19 @@ vim.keymap.set("n", "<leader>rr",
     { desc = "Build and run AutoFordelerV2" }
 )
 
+vim.keymap.set("n", "<leader>tf", 
+    function()
+        vim.cmd("TypstPreviewFollowCursorToggle")
+    end,
+    { desc = "Toggle follow cursor" }
+)
+
+vim.keymap.set("n", "<leader>tp", 
+    function()
+        vim.cmd("TypstPreview")
+    end,
+    { desc = "Open typst preview of current file" }
+)
  -- ============================================================================
 --  LSP Keymaps (Global)
 -- ============================================================================
