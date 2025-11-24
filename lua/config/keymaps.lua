@@ -36,6 +36,13 @@ vim.keymap.set("n", "<leader>tp",
     end,
     { desc = "Open typst preview of current file" }
 )
+
+vim.keymap.set("n", "<leader>kz", 
+    function()
+        vim.cmd("ZenMode")
+    end,
+    { desc = "Enter ZenMode" }
+)
  -- ============================================================================
 --  LSP Keymaps (Global)
 -- ============================================================================
