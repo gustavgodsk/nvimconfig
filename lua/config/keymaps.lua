@@ -45,7 +45,7 @@ vim.keymap.set("n", "<leader>tp",
     { desc = "Open typst preview of current file" }
 )
 
-vim.keymap.set("n", "<leader>kz", 
+vim.keymap.set("n", "<leader>z", 
     function()
         vim.cmd("ZenMode")
     end,

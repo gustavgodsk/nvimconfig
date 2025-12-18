@@ -97,11 +97,13 @@ return {
                 if vim.fn.has("nvim-0.9") == 1 then
                     vim.api.nvim_set_option_value("statuscolumn", string.rep(" ", 20), { win = win })
                 end
+                vim.cmd("silent !wezterm cli set-user-var IS_ZEN_MODE 1")
             end,
             -- Callback when Zen Mode closes
             on_close = function()
                 -- Re-enable indent-blankline (v3) for the current buffer
                 require("ibl").setup_buffer(0, { enabled = true })
+                vim.cmd("silent !wezterm cli set-user-var IS_ZEN_MODE 0")
             end,
         }
     }
