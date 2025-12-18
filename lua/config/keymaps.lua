@@ -13,6 +13,8 @@ vim.keymap.set({ 'n' }, '<A-j>', '<C-w>j')
 vim.keymap.set({ 'n' }, '<A-k>', '<C-w>k')
 vim.keymap.set({ 'n' }, '<A-l>', '<C-w>l')
 
+vim.keymap.set("i", '<A-;>', 'A;<Esc>')
+
 -- Make <Esc> clear the search highlight
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR><Esc>', { desc = 'Clear search highlight' })
 
@@ -21,6 +23,12 @@ vim.keymap.set("n", "<leader>rr",
         vim.cmd("!dotnet run --project AutoFordelerV2")
     end,
     { desc = "Build and run AutoFordelerV2" }
+)
+vim.keymap.set("n", "<leader>rb", 
+    function()
+        vim.cmd("!dotnet build")
+    end,
+    { desc = "Build project" }
 )
 
 vim.keymap.set("n", "<leader>tf", 
