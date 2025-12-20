@@ -108,7 +108,7 @@ return {
             })
         end,
     },
-    -- 7. INDENT BLANKLINE (Your Purple Line Fix) 
+    -- 7. INDENT BLANKLINE 
     { 
         "lukas-reineke/indent-blankline.nvim", 
         dependencies = { "nvim-treesitter/nvim-treesitter" }, 
