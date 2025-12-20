@@ -17,7 +17,7 @@ return {
 
             -- run setup
             require("nvim-treesitter.configs").setup({
-                ensure_installed = { "c_sharp", "lua", "vim", "java", "typst", "xml", "cpp" },
+                ensure_installed = { "c_sharp", "lua", "vim", "java", "typst", "xml", "cpp", "javascript", "typescript" },
                 highlight = { 
                     enable = true,
                     additional_vim_regex_highlighting = false 
@@ -42,7 +42,8 @@ return {
                     "java-debug-adapter", 
                     "java-test", 
                     "tinymist",
-                    "prettier"
+                    "prettier",
+                    "typescript-language-server"
                 }
             })
         end,
@@ -56,7 +57,7 @@ return {
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
             require("mason-lspconfig").setup({
-                ensure_installed = { "csharp_ls", "tinymist" },
+                ensure_installed = { "csharp_ls", "tinymist", "ts_ls" },
                 handlers = {
                     -- Default handler (applies to csharp_ls)
                     function(server_name)
@@ -161,6 +162,8 @@ return {
                 formatters_by_ft = {
                     xml = { "prettier" },
                     xaml = { "prettier" },
+                    javascript = { "prettier" },
+                    typescript = { "prettier" },
                 },
                 -- ADD THIS to customize the tool behavior
                 formatters = {
