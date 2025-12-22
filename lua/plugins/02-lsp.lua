@@ -110,47 +110,47 @@ return {
         end,
     },
     -- 7. INDENT BLANKLINE 
-    { 
-        "lukas-reineke/indent-blankline.nvim", 
-        dependencies = { "nvim-treesitter/nvim-treesitter" }, 
-        event = { "BufReadPre", "BufNewFile" }, 
-        main = "ibl", 
-        opts = { 
-            -- 1. DISABLE STATIC LINES
-            indent = { 
-                char = " ",  -- Set the character to an empty string (invisible)
-            }, 
-
-            -- 2. KEEP ACTIVE SCOPE (Only shows when cursor is inside)
-            scope = { 
-                enabled = true, 
-                show_start = false, 
-                show_end = false, 
-                char = "│",       -- Use the bar character ONLY for the active scope
-                highlight = "IblScope", 
-                priority = 500, 
-                -- You can keep your exclusions here if you want, 
-                -- but they matter less now since static lines are gone.
-                exclude = {
-                    node_type = {
-                        ["*"] = {
-                            "if_statement",
-                            "for_statement",
-                            "while_statement",
-                            "switch_statement",
-                            "try_statement",
-                            "catch_clause",
-                        },
-                    },
-                },
-            }, 
-        }, 
-        config = function(_, opts) 
-            -- Optional: Make the scope line slightly brighter since it's the only one you'll see
-            vim.api.nvim_set_hl(0, "IblScope", { fg = "#263c42", bold = false }) 
-            require("ibl").setup(opts) 
-        end,
-    },
+    -- { 
+    --     "lukas-reineke/indent-blankline.nvim", 
+    --     dependencies = { "nvim-treesitter/nvim-treesitter" }, 
+    --     event = { "BufReadPre", "BufNewFile" }, 
+    --     main = "ibl", 
+    --     opts = { 
+    --         -- 1. DISABLE STATIC LINES
+    --         indent = { 
+    --             char = " ",  -- Set the character to an empty string (invisible)
+    --         }, 
+    --
+    --         -- 2. KEEP ACTIVE SCOPE (Only shows when cursor is inside)
+    --         scope = { 
+    --             enabled = true, 
+    --             show_start = false, 
+    --             show_end = false, 
+    --             char = "│",       -- Use the bar character ONLY for the active scope
+    --             highlight = "IblScope", 
+    --             priority = 500, 
+    --             -- You can keep your exclusions here if you want, 
+    --             -- but they matter less now since static lines are gone.
+    --             exclude = {
+    --                 node_type = {
+    --                     ["*"] = {
+    --                         "if_statement",
+    --                         "for_statement",
+    --                         "while_statement",
+    --                         "switch_statement",
+    --                         "try_statement",
+    --                         "catch_clause",
+    --                     },
+    --                 },
+    --             },
+    --         }, 
+    --     }, 
+    --     config = function(_, opts) 
+    --         -- Optional: Make the scope line slightly brighter since it's the only one you'll see
+    --         vim.api.nvim_set_hl(0, "IblScope", { fg = "#263c42", bold = false }) 
+    --         require("ibl").setup(opts) 
+    --     end,
+    -- },
 
     {
         'stevearc/conform.nvim',

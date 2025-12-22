@@ -13,7 +13,8 @@ vim.keymap.set({ 'n' }, '<A-j>', '<C-w>j')
 vim.keymap.set({ 'n' }, '<A-k>', '<C-w>k')
 vim.keymap.set({ 'n' }, '<A-l>', '<C-w>l')
 
-vim.keymap.set("i", '<C-;>', '<Esc>A;<Esc>')
+vim.keymap.set("n", '<leader>o', 'o<Esc>')
+vim.keymap.set("n", '<leader>O', 'O<Esc>')
 
 -- Make <Esc> clear the search highlight
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR><Esc>', { desc = 'Clear search highlight' })
