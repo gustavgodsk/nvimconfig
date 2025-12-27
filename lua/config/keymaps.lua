@@ -95,3 +95,24 @@ end, { desc = "Typst: Force Compile PDF" })
     end
   end,
 })
+
+  vim.keymap.set({ 'n', 'v' }, '<leader><Enter>', function()
+    if vim.g.neovide_fullscreen ~= true then
+      vim.g.neovide_fullscreen = true
+    else
+      vim.g.neovide_fullscreen = false
+    end
+  end)
+
+local op = 1;
+
+  vim.keymap.set({ 'n', 'v' }, '<leader>l', function()
+    if op == 1 then
+        op = 0.75
+    elseif op == 0.75 then
+            op = 0
+    else 
+        op = 1
+    end
+    vim.g.neovide_opacity = op
+  end)
