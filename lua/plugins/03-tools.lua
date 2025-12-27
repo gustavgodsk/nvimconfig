@@ -1,24 +1,32 @@
 -- ~/.config/nvim/lua/plugins/03-tools.lua
 
 return {
-  -- Fuzzy Finding
-  {
+    -- Fuzzy Finding
+    {
     "nvim-telescope/telescope.nvim",
     branch = "0.1.x",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    keys = {
-      { "<leader>ff", function() require("telescope.builtin").find_files() end, desc = "Find Files" },
-      { "<leader>fg", function() require("telescope.builtin").live_grep() end, desc = "Find Text (Grep)" },
-      { "<leader>fb", function() require("telescope.builtin").buffers() end, desc = "Find Buffers" },
-    },
-    config = function()
-      require("telescope").setup({
-        defaults = {
-          border_chars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+        dependencies = { "nvim-lua/plenary.nvim", "fbuchlak/telescope-directory.nvim" },
+        cmd = "Telescope",
+        config = function()
+            require("telescope").setup({
+                -- defaults = {
+                --     border_chars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+                -- },
+                extensions = {
+                    -- @type telescope-directory.ExtensionConfig
+                    directory = {},
+                }
+        });
+            require("telescope").load_extension("directory");
+        end,
+        keys = {
+            { "<leader>ff", function() require("telescope.builtin").find_files() end, desc = "Find Files" },
+            { "<leader>fg", function() require("telescope.builtin").live_grep() end, desc = "Find Text (Grep)" },
+            { "<leader>fb", function() require("telescope.builtin").buffers() end, desc = "Find Buffers" }, 
+            { "<Leader>fd", function() require("telescope").extensions.directory.live_grep() end, 
+            desc = "Select directory for Live Grep" },
         },
-      })
-    end,
-  },
+    },
 
   -- Git Integration
   {

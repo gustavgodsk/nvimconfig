@@ -68,7 +68,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, { desc = "References", buffer = ev.buf })
     
     -- Information
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, { desc = "Hover Info", buffer = ev.buf })
+    vim.keymap.set('n', 'K', function() vim.lsp.buf.hover { border = "single", max_height = 25, max_width = 120} end, { desc = "Hover Info", buffer = ev.buf })
     
     -- Actions
     vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { desc = "Rename", buffer = ev.buf })
