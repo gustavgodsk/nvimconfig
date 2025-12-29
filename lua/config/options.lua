@@ -54,4 +54,5 @@ vim.api.nvim_create_autocmd('UIEnter', {
 
     vim.g.neovide_fullscreen = true;
     vim.g.neovide_scroll_animation_length = 0.1;
+vim.g.neovide_hide_mouse_when_typing = 1;
 
