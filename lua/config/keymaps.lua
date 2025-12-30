@@ -15,6 +15,7 @@ vim.keymap.set({ 'n' }, '<A-l>', '<C-w>l')
 
 vim.keymap.set("n", '<leader>o', 'o<Esc>')
 vim.keymap.set("n", '<leader>O', 'O<Esc>')
+vim.keymap.set("i", '<A-;>', '<Esc>')
 
 -- Make <Esc> clear the search highlight
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR><Esc>', { desc = 'Clear search highlight' })
@@ -105,7 +106,6 @@ end, { desc = "Typst: Force Compile PDF" })
   end)
 
 local op = 1;
-
   vim.keymap.set({ 'n', 'v' }, '<leader>l', function()
     if op == 1 then
         op = 0.75
@@ -116,3 +116,17 @@ local op = 1;
     end
     vim.g.neovide_opacity = op
   end)
+
+vim.keymap.set({'n', 'v'}, '<C-+>', function()
+    vim.g.neovide_scale_factor = vim.g.neovide_scale_factor + 0.1;
+end)
+
+vim.keymap.set({'n', 'v'}, '<C-->', function()
+    vim.g.neovide_scale_factor = vim.g.neovide_scale_factor - 0.1;
+end)
+
+vim.keymap.set({'n', 'v'}, '<C-0>', function()
+    vim.g.neovide_scale_factor = 1.0;
+end)
+
+
