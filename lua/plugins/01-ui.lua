@@ -121,9 +121,8 @@ return {
                 if vim.fn.has("nvim-0.9") == 1 then
                     vim.api.nvim_set_option_value("statuscolumn", string.rep(" ", 20), { win = win })
                 end
-                vim.cmd("silent !wezterm cli set-user-var IS_ZEN_MODE 1")
                 if vim.g.neovide then
-                    vim.g.neovide_scale_factor = 1.1
+                    vim.g.neovide_scale_factor = 1.0
                     vim.opt.linespace = 5
                 end
             end,
@@ -134,9 +133,8 @@ return {
                 if vim.fn.has("nvim-0.9") == 1 then
                     vim.api.nvim_set_option_value("statuscolumn", string.rep(" ", 0), { win = win })
                 end
-                vim.cmd("silent !wezterm cli set-user-var IS_ZEN_MODE 0")
                 if vim.g.neovide then
-                    vim.g.neovide_scale_factor = 1.0
+                    vim.g.neovide_scale_factor = 0.9
                     vim.opt.linespace = 1
                 end
             end,

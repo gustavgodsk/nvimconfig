@@ -4,14 +4,14 @@
 vim.keymap.set('t', '<Esc>', '<C-\\><C-n>')
 
 -- Map <A-j>, <A-k>, <A-h>, <A-l> to navigate between windows in any modes
-vim.keymap.set({ 't', 'i' }, '<A-h>', '<C-\\><C-n><C-w>h')
-vim.keymap.set({ 't', 'i' }, '<A-j>', '<C-\\><C-n><C-w>j')
-vim.keymap.set({ 't', 'i' }, '<A-k>', '<C-\\><C-n><C-w>k')
-vim.keymap.set({ 't', 'i' }, '<A-l>', '<C-\\><C-n><C-w>l')
-vim.keymap.set({ 'n' }, '<A-h>', '<C-w>h')
-vim.keymap.set({ 'n' }, '<A-j>', '<C-w>j')
-vim.keymap.set({ 'n' }, '<A-k>', '<C-w>k')
-vim.keymap.set({ 'n' }, '<A-l>', '<C-w>l')
+vim.keymap.set({ 't', 'i' }, '<C-h>', '<C-\\><C-n><C-w>h')
+vim.keymap.set({ 't', 'i' }, '<C-j>', '<C-\\><C-n><C-w>j')
+vim.keymap.set({ 't', 'i' }, '<C-k>', '<C-\\><C-n><C-w>k')
+vim.keymap.set({ 't', 'i' }, '<C-l>', '<C-\\><C-n><C-w>l')
+vim.keymap.set({ 'n' }, '<C-h>', '<C-w>h')
+vim.keymap.set({ 'n' }, '<C-j>', '<C-w>j')
+vim.keymap.set({ 'n' }, '<C-k>', '<C-w>k')
+vim.keymap.set({ 'n' }, '<C-l>', '<C-w>l')
 
 vim.keymap.set("n", '<leader>o', 'o<Esc>')
 vim.keymap.set("n", '<leader>O', 'O<Esc>')
@@ -97,7 +97,7 @@ end, { desc = "Typst: Force Compile PDF" })
   end,
 })
 
-  vim.keymap.set({ 'n', 'v' }, '<leader><Enter>', function()
+  vim.keymap.set({ 'n', 'v' }, '<leader><F11>', function()
     if vim.g.neovide_fullscreen ~= true then
       vim.g.neovide_fullscreen = true
     else
@@ -126,7 +126,7 @@ vim.keymap.set({'n', 'v'}, '<C-->', function()
 end)
 
 vim.keymap.set({'n', 'v'}, '<C-0>', function()
-    vim.g.neovide_scale_factor = 1.0;
+    vim.g.neovide_scale_factor = 0.9;
 end)
 
 
