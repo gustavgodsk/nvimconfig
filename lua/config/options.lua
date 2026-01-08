@@ -55,6 +55,7 @@ vim.g.neovide_scale_factor = 0.9
 vim.g.neovide_fullscreen = false;
 vim.g.neovide_scroll_animation_length = 0.1;
 vim.g.neovide_hide_mouse_when_typing = 1;
+vim.g.neovide_cursor_animation_length = 0.100;
 
 vim.g.neovide_title_background_color = '#202233'
 vim.g.neovide_title_text_color = "#202233"
