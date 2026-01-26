@@ -15,7 +15,7 @@ vim.keymap.set({ 'n' }, '<C-l>', '<C-w>l')
 
 vim.keymap.set("n", '<leader>o', 'o<Esc>')
 vim.keymap.set("n", '<leader>O', 'O<Esc>')
-vim.keymap.set("i", '<A-;>', '<Esc>')
+-- vim.keymap.set("i", '<A-;>', '<Esc>')
 
 -- Make <Esc> clear the search highlight
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR><Esc>', { desc = 'Clear search highlight' })
@@ -47,12 +47,12 @@ vim.keymap.set("n", "<leader>tp",
     { desc = "Open typst preview of current file" }
 )
 
-vim.keymap.set("n", "<leader>z", 
-    function()
-        vim.cmd("ZenMode")
-    end,
-    { desc = "Enter ZenMode" }
-)
+-- vim.keymap.set("n", "<leader>z", 
+--     function()
+--         vim.cmd("ZenMode")
+--     end,
+--     { desc = "Enter ZenMode" }
+-- )
  -- ============================================================================
 --  LSP Keymaps (Global)
 -- ============================================================================
@@ -96,6 +96,47 @@ end, { desc = "Typst: Force Compile PDF" })
     end
   end,
 })
+
+_G.get_distraction_padding = function()
+  -- List of filetypes to IGNORE (no padding)
+  local ignored_fts = { "NvimTree", "neo-tree", "oil", "undotree", "diff" }
+  
+  if vim.tbl_contains(ignored_fts, vim.bo.filetype) then
+    return "" -- No padding for sidebars
+  end
+  
+  -- Return your padding for normal files
+  return string.rep(" ", 20)
+end
+
+local epicZenModeActive = false;
+function ToggleEpicZenMode()
+    epicZenModeActive = not epicZenModeActive
+
+    if epicZenModeActive then
+        vim.opt.statuscolumn = "%!v:lua.get_distraction_padding()"
+        vim.opt.signcolumn = "no"      -- Hide the signcolumn (git signs, errors)
+        vim.opt.number = false         -- Hide absolute line numbers
+        vim.opt.relativenumber = false -- Hide relative line numbers
+        vim.opt.cursorline = false     -- Optional: Disable cursorline highlighting
+        vim.opt.foldcolumn = "0"       -- Optional: Hide fold column
+        vim.opt.list = false           -- Optional: Hide list chars (tabs/spaces)
+        vim.opt.laststatus = 0
+        vim.opt.ruler = false
+    else 
+        vim.opt.statuscolumn = ""
+        vim.opt.signcolumn = "auto"    
+        vim.opt.number = true      
+        vim.opt.relativenumber = true 
+        vim.opt.cursorline = true     
+        vim.opt.foldcolumn = "0"      
+        vim.opt.list = true          
+        vim.opt.laststatus = 2
+        vim.opt.ruler = true
+    end
+end
+
+vim.keymap.set({'n','v'}, '<leader>z', ToggleEpicZenMode)
 
   vim.keymap.set({ 'n', 'v' }, '<leader><F11>', function()
     if vim.g.neovide_fullscreen ~= true then
