@@ -60,37 +60,45 @@ vim.keymap.set("n", "<leader>tp",
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('UserLspConfig', {}),
   callback = function(ev)
+    local client = vim.lsp.get_client_by_id(ev.data.client_id)
+    if not client then return end -- Safety check
+
+    -- =========================================================
+    -- FIX: Stop Metals from formatting Markdown/Text files
+    -- =========================================================
+    if client.name == "metals" then
+        local ft = vim.bo[ev.buf].filetype
+        -- If we are not in a Scala/SBT/Java file, simply exit this function.
+        -- This prevents the "Format on Save" autocmd below from being created for Metals.
+        if ft ~= "scala" and ft ~= "sbt" and ft ~= "java" then
+            return
+        end
+    end
+
     local opts = { buffer = ev.buf, silent = true }
 
-    -- Go-to definitions
+    -- (Your keymaps are here...)
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { desc = "Go to Declaration", buffer = ev.buf })
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = "Go to Definition", buffer = ev.buf })
     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, { desc = "Go to Implementation", buffer = ev.buf })
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, { desc = "References", buffer = ev.buf })
-    
-    -- Information
     vim.keymap.set('n', 'K', function() vim.lsp.buf.hover { border = "single", max_height = 25, max_width = 120} end, { desc = "Hover Info", buffer = ev.buf })
-    
-    -- Actions
     vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { desc = "Rename", buffer = ev.buf })
-    
-    -- Diagnostics (The one you were missing!)
     vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = "Show Line Diagnostic", buffer = ev.buf })
     vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = "Previous Diagnostic", buffer = ev.buf })
     vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = "Next Diagnostic", buffer = ev.buf })
     vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Actions", buffer = ev.buf })
+    vim.keymap.set("n", "<leader>tc", function() vim.cmd("!typst compile %:p %:r.pdf") end, { desc = "Typst: Force Compile PDF" })
 
- vim.keymap.set("n", "<leader>tc", function()
-  vim.cmd("!typst compile %:p %:r.pdf")
-end, { desc = "Typst: Force Compile PDF" })
-    
     -- Format on save
-    local client = vim.lsp.get_client_by_id(ev.data.client_id)
-    if client and client.supports_method("textDocument/formatting") then
+    -- Now this will only run if the client passed the check above!
+    if client.supports_method("textDocument/formatting") then
       vim.api.nvim_create_autocmd("BufWritePre", {
         buffer = ev.buf,
         callback = function()
-          vim.lsp.buf.format({ async = false })
+          if not client.is_stopped() then
+             vim.lsp.buf.format({ async = false, id = client.id }) 
+          end
         end,
       })
     end

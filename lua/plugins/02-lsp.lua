@@ -17,7 +17,20 @@ return {
 
             -- run setup
             require("nvim-treesitter.configs").setup({
-                ensure_installed = { "c_sharp", "lua", "vim", "java", "typst", "xml", "cpp", "javascript", "typescript" },
+                ensure_installed = {
+                    "c_sharp",
+                    "lua",
+                    "vim",
+                    "java",
+                    "typst",
+                    "xml",
+                    "cpp",
+                    "javascript",
+                    "typescript",
+                    "markdown",
+                    "markdown_inline",
+                    "html"
+                },
                 highlight = { 
                     enable = true,
                     additional_vim_regex_highlighting = false 
@@ -164,6 +177,7 @@ return {
                     xaml = { "prettier" },
                     javascript = { "prettier" },
                     typescript = { "prettier" },
+                    html = { "prettier" },
                 },
                 -- ADD THIS to customize the tool behavior
                 formatters = {
