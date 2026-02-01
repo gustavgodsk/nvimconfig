@@ -47,6 +47,7 @@ return {
     -- Mason
     {
         "mason-org/mason.nvim",
+        enabled = _G.IS_WINDOWS,
         config = function()
             require("mason").setup({
                 ensure_installed = { 
@@ -66,6 +67,7 @@ return {
     {
         "mason-org/mason-lspconfig.nvim",
         dependencies = { "mason-org/mason.nvim", "hrsh7th/nvim-cmp", "hrsh7th/cmp-nvim-lsp" },
+        enabled = _G.IS_WINDOWS,
         config = function()
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
 

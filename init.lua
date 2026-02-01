@@ -1,4 +1,7 @@
- -- ~/.config/nvim/init.lua
+-- ~/.config/nvim/init.lua
+
+_G.IS_WINDOWS = (vim.fn.has("win32") == 1) or (vim.fn.has("win64") == 1)
+_G.IS_WSL = (vim.fn.has("wsl") == 1) or (vim.fn.has("unix") == 1 and not is_windows)
 
 -- Set <space> as the leader key
 vim.g.mapleader = ' '
@@ -24,8 +27,3 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Tell lazy.nvim to load all files from lua/plugins/
 require("lazy").setup("plugins")
-
--- NOTE: We will delete the "LSP CONFIG BELOW" section
--- It will be moved inside lua/plugins/02-lsp.lua
---
---
