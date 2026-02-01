@@ -178,4 +178,31 @@ vim.keymap.set({'n', 'v'}, '<C-0>', function()
     vim.g.neovide_scale_factor = 0.9;
 end)
 
+ -- Keymap to open the current file in the default external program
+vim.keymap.set("n", "<leader>gx", function()
+    local file = vim.fn.expand("%:p") -- Get absolute path
+    if file == "" then
+        print("No file buffer")
+        return
+    end
 
+    -- Escape the path properly for the shell
+    local pfile = vim.fn.shellescape(file)
+
+    local cmd = ""
+    if vim.fn.has("win32") == 1 then
+        -- On Windows, 'explorer' is more reliable than 'start' for file associations
+        -- We use 'start' purely to detach the process so Neovim doesn't freeze
+        cmd = "silent !start explorer " .. pfile
+    elseif vim.fn.has("mac") == 1 then
+        cmd = "silent !open " .. pfile
+    elseif vim.fn.has("unix") == 1 then
+        cmd = "silent !xdg-open " .. pfile
+    end
+
+    if cmd ~= "" then
+        vim.cmd(cmd)
+    else
+        print("OS not supported for auto-open")
+    end
+end, { desc = "Open current file in default OS viewer" })
