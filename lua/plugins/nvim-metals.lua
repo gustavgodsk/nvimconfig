@@ -2,6 +2,7 @@ return {
     {
         "scalameta/nvim-metals",
         enabled = _G.IS_WINDOWS,
+        ft = { "scala" }, 
         dependencies = {
             "hrsh7th/nvim-cmp",
             "hrsh7th/cmp-nvim-lsp"
