@@ -17,6 +17,7 @@ vim.o.shiftwidth = 2
 vim.o.expandtab = true
 vim.o.autoindent = true
 vim.o.smartindent = true
+vim.opt.tabline = "%t"
 
  -- Define a global Lua function to format the fold text
 _G.CustomFoldText = function()
@@ -59,3 +60,43 @@ vim.g.neovide_cursor_animation_length = 0.100;
 
 vim.g.neovide_title_background_color = '#202233'
 vim.g.neovide_title_text_color = "#202233"
+
+ -- Define a global function to render the tabline
+function _G.MyTabLine()
+  local tabline = ''
+  local tabpages = vim.api.nvim_list_tabpages()
+
+  for _, tabpage in ipairs(tabpages) do
+    -- Get the actual tab number
+    local tab_num = vim.api.nvim_tabpage_get_number(tabpage)
+    
+    -- Highlight the current tab differently
+    if tabpage == vim.api.nvim_get_current_tabpage() then
+      tabline = tabline .. '%#TabLineSel#'
+    else
+      tabline = tabline .. '%#TabLine#'
+    end
+
+    -- Enable mouse click for this tab
+    tabline = tabline .. '%' .. tab_num .. 'T '
+
+    -- Get the file name of the active window in this tab
+    local win = vim.api.nvim_tabpage_get_win(tabpage)
+    local buf = vim.api.nvim_win_get_buf(win)
+    local buf_name = vim.api.nvim_buf_get_name(buf)
+
+    -- Extract just the filename (the 'tail')
+    local file_name = buf_name == '' and '[No Name]' or vim.fn.fnamemodify(buf_name, ':t')
+
+    -- Add the tab number and the short file name to the string
+    -- tabline = tabline .. tab_num .. ': ' .. file_name .. ' '
+    tabline = tabline ..  file_name .. ' '
+  end
+
+  -- Fill the rest of the bar with default background and reset mouse click
+  tabline = tabline .. '%#TabLineFill#%T'
+  return tabline
+end
+
+-- Tell Neovim to use this function for the tabline
+vim.opt.tabline = '%!v:lua.MyTabLine()'
