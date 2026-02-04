@@ -8,9 +8,9 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
- vim.filetype.add({
+vim.filetype.add({
   extension = {
-    xaml = "xml",
+    xaml = "xaml",
   },
 })
 

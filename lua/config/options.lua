@@ -12,37 +12,42 @@ vim.o.list = true           -- Show <tab> and trailing spaces
 vim.o.confirm = true        -- Ask for confirmation
 vim.o.updatetime = 50       -- update every 50ms
 vim.o.virtualedit = 'all'   -- allows cursor to be anywhere
-vim.o.tabstop = 2
-vim.o.shiftwidth = 2
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
 vim.o.expandtab = true
 vim.o.autoindent = true
 vim.o.smartindent = true
 vim.opt.tabline = "%t"
+-- When editing, enable BOM support so the <feff> is hidden/handled correctly
+vim.opt.fileencodings = "ucs-bom,utf-8,default,latin1"
+-- Disable BOM (Byte Order Mark) by default
+vim.opt.bomb = false
+vim.opt.binary = false
 
- -- Define a global Lua function to format the fold text
+-- Define a global Lua function to format the fold text
 _G.CustomFoldText = function()
-    -- Get the first line of the fold block
-    local line = vim.fn.getline(vim.v.foldstart)
+  -- Get the first line of the fold block
+  local line = vim.fn.getline(vim.v.foldstart)
 
-    -- Calculate the total number of lines in the fold
-    local lines_count = vim.v.foldend - vim.v.foldstart + 1
+  -- Calculate the total number of lines in the fold
+  local lines_count = vim.v.foldend - vim.v.foldstart + 1
 
-    -- local text = line .. "    " .. lines_count .. " lines "
-    local text = line .. "  ...  " .. lines_count .. " lines "
+  -- local text = line .. "    " .. lines_count .. " lines "
+  local text = line .. "  ...  " .. lines_count .. " lines "
 
-    return text
+  return text
 end
 
 vim.api.nvim_create_autocmd("FileType", {
-    pattern = "cs",
-    callback = function()
-        -- These options will only apply to C# files
-        vim.opt_local.foldmethod = "expr"
-        vim.opt_local.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-        vim.opt_local.foldlevel = 1
-        vim.opt_local.fillchars:append({ fold = " " })
-        vim.opt_local.foldtext = "v:lua.CustomFoldText()"
-    end,
+  pattern = "cs",
+  callback = function()
+    -- These options will only apply to C# files
+    vim.opt_local.foldmethod = "expr"
+    vim.opt_local.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+    vim.opt_local.foldlevel = 1
+    vim.opt_local.fillchars:append({ fold = " " })
+    vim.opt_local.foldtext = "v:lua.CustomFoldText()"
+  end,
 })
 --
 -- Sync clipboard between OS and Neovim
@@ -52,16 +57,7 @@ vim.api.nvim_create_autocmd('UIEnter', {
   end,
 })
 
-vim.g.neovide_scale_factor = 0.9
-vim.g.neovide_fullscreen = false;
-vim.g.neovide_scroll_animation_length = 0.1;
-vim.g.neovide_hide_mouse_when_typing = 1;
-vim.g.neovide_cursor_animation_length = 0.100;
-
-vim.g.neovide_title_background_color = '#202233'
-vim.g.neovide_title_text_color = "#202233"
-
- -- Define a global function to render the tabline
+-- Define a global function to render the tabline
 function _G.MyTabLine()
   local tabline = ''
   local tabpages = vim.api.nvim_list_tabpages()
@@ -69,7 +65,7 @@ function _G.MyTabLine()
   for _, tabpage in ipairs(tabpages) do
     -- Get the actual tab number
     local tab_num = vim.api.nvim_tabpage_get_number(tabpage)
-    
+
     -- Highlight the current tab differently
     if tabpage == vim.api.nvim_get_current_tabpage() then
       tabline = tabline .. '%#TabLineSel#'
@@ -100,3 +96,4 @@ end
 
 -- Tell Neovim to use this function for the tabline
 vim.opt.tabline = '%!v:lua.MyTabLine()'
+

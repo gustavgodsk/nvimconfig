@@ -146,37 +146,6 @@ end
 
 vim.keymap.set({'n','v'}, '<leader>z', ToggleEpicZenMode)
 
-  vim.keymap.set({ 'n', 'v' }, '<leader><F11>', function()
-    if vim.g.neovide_fullscreen ~= true then
-      vim.g.neovide_fullscreen = true
-    else
-      vim.g.neovide_fullscreen = false
-    end
-  end)
-
-local op = 1;
-  vim.keymap.set({ 'n', 'v' }, '<leader>l', function()
-    if op == 1 then
-        op = 0.75
-    elseif op == 0.75 then
-            op = 0
-    else 
-        op = 1
-    end
-    vim.g.neovide_opacity = op
-  end)
-
-vim.keymap.set({'n', 'v'}, '<C-+>', function()
-    vim.g.neovide_scale_factor = vim.g.neovide_scale_factor + 0.1;
-end)
-
-vim.keymap.set({'n', 'v'}, '<C-->', function()
-    vim.g.neovide_scale_factor = vim.g.neovide_scale_factor - 0.1;
-end)
-
-vim.keymap.set({'n', 'v'}, '<C-0>', function()
-    vim.g.neovide_scale_factor = 0.9;
-end)
 
  -- Keymap to open the current file in the default external program
 vim.keymap.set("n", "<leader>gx", function()
