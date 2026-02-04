@@ -33,19 +33,10 @@ vim.keymap.set("n", "<leader>rb",
     { desc = "Build project" }
 )
 
-vim.keymap.set("n", "<leader>tf", 
-    function()
-        vim.cmd("TypstPreviewFollowCursorToggle")
-    end,
-    { desc = "Toggle follow cursor" }
-)
-
-vim.keymap.set("n", "<leader>tp", 
-    function()
-        vim.cmd("TypstPreview")
-    end,
-    { desc = "Open typst preview of current file" }
-)
+-- TYPST
+vim.keymap.set("n", "<leader>tf", function() vim.cmd("TypstPreviewFollowCursorToggle") end, { desc = "Toggle follow cursor" })
+vim.keymap.set("n", "<leader>tp", function() vim.cmd("TypstPreview") end, { desc = "Open typst preview of current file" })
+vim.keymap.set("n", "<leader>tc", function() vim.cmd("!typst compile %:p %:r.pdf") end, { desc = "Typst: Force Compile PDF" })
 
 -- vim.keymap.set("n", "<leader>z", 
 --     function()
@@ -88,7 +79,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = "Previous Diagnostic", buffer = ev.buf })
     vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = "Next Diagnostic", buffer = ev.buf })
     vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Actions", buffer = ev.buf })
-    vim.keymap.set("n", "<leader>tc", function() vim.cmd("!typst compile %:p %:r.pdf") end, { desc = "Typst: Force Compile PDF" })
 
     -- Format on save
     -- Now this will only run if the client passed the check above!
