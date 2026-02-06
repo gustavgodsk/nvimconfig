@@ -182,17 +182,34 @@ return {
         prettier = {
           prepend_args = { "--plugin", "@prettier/plugin-xml" },
         },
-        xamlstyler = {
-          command = "xstyler",
-          -- REVERTED: Use file mode because xstyler demands it
-          args = { "-f", "$FILENAME", "-c", vim.fn.getcwd() .. "/Settings.XamlStyler" },
-          stdin = false,
-        },
-      },
-      format_on_save = {
-        timeout_ms = 3000,
-        lsp_fallback = true,
-      },
+                    xamlstyler = {
+                        command = "xstyler",
+                        -- stdin = false is required because xstyler modifies files in-place
+                        stdin = false, 
+                        args = function(self, ctx)
+                            -- 1. Search for the config file starting from the current file's directory
+                            --    This works regardless of where you opened nvim from.
+                            local config_path = vim.fs.find("Settings.XamlStyler", {
+                                path = ctx.dirname, -- Start search from the file's folder
+                                upward = true,      -- Search up the tree
+                                stop = vim.loop.os_homedir(), -- Stop at home dir
+                                type = "file"
+                            })[1]
+
+                            -- 2. If found, explicitly tell xstyler where it is using -c
+                            if config_path then
+                                return { "-f", "$FILENAME", "-c", config_path }
+                            else
+                                -- Fallback (unlikely to work well, but safe)
+                                return { "-f", "$FILENAME" }
+                            end
+                        end,
+                    },
+                },
+                format_on_save = {
+                    timeout_ms = 3000,
+                    lsp_fallback = true,
+                },
     })
 
     -- THE FIX: Strip BOM <feff> on save
