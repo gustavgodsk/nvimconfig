@@ -177,6 +177,7 @@ return {
         javascript = { "prettier" },
         typescript = { "prettier" },
         html = { "prettier" },
+        json = { "prettier" },
       },
       formatters = {
         prettier = {
