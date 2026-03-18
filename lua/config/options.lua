@@ -2,7 +2,7 @@
 
 -- 1. Create a highlight group with the 'inverse' attribute
 vim.api.nvim_set_hl(0, 'InsertCursor', { fg = '#000000', bg = '#ffffff' })
-
+ vim.o.signcolumn = "yes"
 -- 2. Link this group to the insert mode cursor
 vim.opt.guicursor = "n-v-c:block-Cursor,i:block-InsertCursor"
 vim.o.number = true         -- Show line numbers

@@ -36,10 +36,11 @@ return {
             require("mason").setup({
                 ensure_installed = { 
                     "csharp_ls", "clangd", "jdtls", "java-debug-adapter", 
-                    "java-test", "tinymist", "prettier",
+                    "java-test", "tinymist", "prettierd", "prettier",
                     "typescript-language-server", "svelte-language-server", "netcoredbg",
                     -- NEW: Added HTML, CSS, and Emmet to Mason
-                    "html-lsp", "css-lsp", "emmet-ls" 
+                    "html-lsp", "css-lsp", "emmet-language-server" ,
+                    "tailwindcss-language-server" -- <-- ADD THIS HERE
                 }
             })
         end,
@@ -55,7 +56,7 @@ return {
 
             require("mason-lspconfig").setup({
                 -- NEW: Added html, cssls, and emmet_ls to ensure_installed
-                ensure_installed = { "csharp_ls", "tinymist", "ts_ls", "html", "cssls", "emmet_ls" },
+                ensure_installed = { "csharp_ls", "tinymist", "ts_ls", "html", "cssls", "emmet_language_server", "tailwindcss" },
 
                 handlers = {
                     -- Default handler (this will automatically catch and setup html and cssls correctly)
@@ -75,9 +76,9 @@ return {
 
                     ["jdtls"] = function() end, -- Handled by lang-java.lua
 
-                    -- NEW: Specific handler for Emmet to define filetypes (including Svelte/TSX from your config)
-                    ["emmet_ls"] = function()
-                        require("lspconfig")["emmet_ls"].setup({
+                    -- NEW: Smart, context-aware Emmet
+                    ["emmet_language_server"] = function()
+                        require("lspconfig")["emmet_language_server"].setup({
                             capabilities = capabilities,
                             filetypes = { "html", "css", "sass", "scss", "less", "javascriptreact", "typescriptreact", "svelte" },
                         })
@@ -99,7 +100,7 @@ return {
         end,
     },
 
-    -- Autocompletion (nvim-cmp)
+-- Autocompletion (nvim-cmp)
     {
         "hrsh7th/nvim-cmp",
         dependencies = { "hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-buffer", "hrsh7th/cmp-path", "L3MON4D3/LuaSnip", "saadparwaiz1/cmp_luasnip" },
@@ -107,18 +108,36 @@ return {
         config = function()
             local cmp = require("cmp")
             local luasnip = require("luasnip")
+            
             cmp.setup({
                 snippet = { expand = function(args) luasnip.lsp_expand(args.body) end },
+                
+                -- NEW: Add labels to the dropdown menu so you can see who is suggesting it
+                formatting = {
+                    format = function(entry, vim_item)
+                        vim_item.menu = ({
+                            nvim_lsp = "[LSP]",
+                            luasnip = "[Snippet]",
+                            buffer = "[Buffer]",
+                            path = "[Path]",
+                        })[entry.source.name]
+                        return vim_item
+                    end
+                },
+
+                -- NEW: Set priorities so LSP ranks higher than raw snippets
                 sources = cmp.config.sources({
-                    { name = "nvim_lsp" },
-                    { name = "luasnip" },
-                    { name = "buffer" },
-                    { name = "path" },
+                    { name = "nvim_lsp", priority = 1000 },
+                    { name = "luasnip", priority = 750 },
+                    { name = "buffer", priority = 500 },
+                    { name = "path", priority = 250 },
                 }),
+                
                 mapping = cmp.mapping.preset.insert({
                     ["<Tab>"] = cmp.mapping.select_next_item(),
                     ["<S-Tab>"] = cmp.mapping.select_prev_item(),
-                    ["<CR>"] = cmp.mapping.confirm(),
+                    -- THE FIX: 'select = false' means Enter will just create a new line UNLESS you explicitly arrow-down to a suggestion
+                    ["<CR>"] = cmp.mapping.confirm(), 
                     ["<C-Space>"] = cmp.mapping.complete(),
                 }),
             })
@@ -134,11 +153,18 @@ return {
                 formatters_by_ft = {
                     xml = { "xamlstyler" },
                     xaml = { "xamlstyler" },
+
                     javascript = { "prettier" },
-                    typescript = { "prettier" },
+                    typescript = { "prettierd" },
                     html = { "prettier" },
-                    css = { "prettier" }, -- NEW: Mapped CSS to Prettier
+                    css = { "prettier" },
                     json = { "prettier" },
+
+                    -- javascript = { "prettier" },
+                    -- typescript = { "prettier" },
+                    -- html = { "prettier" },
+                    -- css = { "prettier" },
+                    -- json = { "prettier" },
                 },
                 formatters = {
                     prettier = {
