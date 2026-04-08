@@ -36,7 +36,7 @@ return {
             })
 
             -- 2. Load the colorscheme AFTER setting up
-            -- vim.cmd.colorscheme("tokyonight")
+            vim.cmd.colorscheme("tokyonight")
         end,
     },
     --  {
@@ -50,18 +50,18 @@ return {
     --      -- vim.cmd.colorscheme("kanagawa-lotus") -- flashbang, do not try
     --    end,
     --  },
-    {
-        "catppuccin/nvim",
-        name = "catppuccin",
-        priority = 1002,
-        config = function()
-            -- vim.cmd.colorscheme("catppuccin-latte")
-            -- vim.cmd.colorscheme("catppuccin-frappe")
-            vim.cmd.colorscheme("catppuccin-macchiato")
-            -- vim.cmd.colorscheme("catppuccin-mocha")
-        end,
-
-    },
+    -- {
+    --     "catppuccin/nvim",
+    --     name = "catppuccin",
+    --     priority = 1002,
+    --     config = function()
+    --         -- vim.cmd.colorscheme("catppuccin-latte")
+    --         -- vim.cmd.colorscheme("catppuccin-frappe")
+    --         vim.cmd.colorscheme("catppuccin-macchiato")
+    --         -- vim.cmd.colorscheme("catppuccin-mocha")
+    --     end,
+    --
+    -- },
     --
     --  {
     --      "EdenEast/nightfox.nvim",
