@@ -6,12 +6,19 @@ return {
     opts = {
         provider = "copilot",
         auto_suggestions_provider = "copilot",
-        -- mode = "legacy",
+        mode = "legacy",
+        providers = {
+            copilot = {
+                disable_tools = true,
+            },
+        },
         behaviour = {
             auto_suggestions = false, 
             auto_set_highlight_group = true,
             auto_set_keymaps = true,
             auto_apply_diff_after_generation = false,
+            auto_approve_tool_permissions = false,
+            confirmation_ui_style = "popup",
             support_paste_from_clipboard = false,
             enable_fastapply = false,
         },
