@@ -22,7 +22,7 @@ return {
         keys = {
             { "<leader>ff", function() require("telescope.builtin").find_files() end, desc = "Find Files" },
             { "<leader>fg", function() require("telescope.builtin").live_grep() end, desc = "Find Text (Grep)" },
-            { "<leader>fb", function() require("telescope.builtin").buffers() end, desc = "Find Buffers" }, 
+            { "<leader>fb", function() require("telescope.builtin").buffers({show_all_buffers = true}) end, desc = "Find Buffers" }, 
             { "<Leader>fd", function() require("telescope").extensions.directory.live_grep() end, 
             desc = "Select directory for Live Grep" },
         },
