@@ -1,11 +1,11 @@
 -- ~/.config/nvim/lua/config/options.lua
  -- views can only be fully collapsed with the global statusline
-vim.opt.laststatus = 3
+vim.o.laststatus = 3
 -- 1. Create a highlight group with the 'inverse' attribute
 vim.api.nvim_set_hl(0, 'InsertCursor', { fg = '#000000', bg = '#ffffff' })
- vim.o.signcolumn = "yes"
+vim.o.signcolumn = "yes"
 -- 2. Link this group to the insert mode cursor
-vim.opt.guicursor = "n-v-c:block-Cursor,i:block-InsertCursor"
+vim.o.guicursor = "n-v-c:block-Cursor,i:block-InsertCursor"
 vim.o.number = true         -- Show line numbers
 vim.o.relativenumber = true -- Use relative line numbers
 vim.o.splitbelow = true     -- On split, new window appears at bottom

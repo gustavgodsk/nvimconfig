@@ -159,6 +159,7 @@ return {
                     html = { "prettier" },
                     css = { "prettier" },
                     json = { "prettier" },
+                    svelte = { "prettier" },
 
                     -- javascript = { "prettier" },
                     -- typescript = { "prettier" },
@@ -191,7 +192,7 @@ return {
                 },
                 format_on_save = {
                     timeout_ms = 3000,
-                    lsp_fallback = true,
+                    lsp_fallback = false,
                 },
             })
 
