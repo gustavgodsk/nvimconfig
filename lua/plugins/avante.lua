@@ -12,6 +12,11 @@ return {
                 disable_tools = true,
             },
         },
+
+        instructions_file = "avante.md",
+        rules = {
+            global_dir = vim.fn.expand("~/.config/avante/rules"),
+        },
         behaviour = {
             auto_suggestions = false, 
             auto_set_highlight_group = true,
