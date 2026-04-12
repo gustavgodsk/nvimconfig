@@ -162,3 +162,5 @@ vim.keymap.set("n", "<leader>gx", function()
         print("OS not supported for auto-open")
     end
 end, { desc = "Open current file in default OS viewer" })
+
+ vim.keymap.set("n", "<leader>th", "<cmd>Telescope colorscheme enable_preview=true<cr>", { desc = "Change Theme" })

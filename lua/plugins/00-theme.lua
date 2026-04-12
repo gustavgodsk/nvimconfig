@@ -1,17 +1,17 @@
 -- ~/.config/nvim/lua/plugins/00-theme.lua
 
 return {
---  {
---   "nyoom-engineering/oxocarbon.nvim",
---   -- Add in any other configuration; 
---   --   event = foo, 
---   --   config = bar
---   --   end,
---         config = function()
---             vim.opt.background = "dark", -- set this to dark or light
---             vim.cmd("colorscheme oxocarbon")
---         end,
--- },
+ {
+  "nyoom-engineering/oxocarbon.nvim",
+  -- Add in any other configuration; 
+  --   event = foo, 
+  --   config = bar
+  --   end,
+        -- config = function()
+        --     vim.opt.background = "dark", -- set this to dark or light
+        --     vim.cmd("colorscheme oxocarbon")
+        -- end,
+},
     {
         "folke/tokyonight.nvim",
         priority = 1000,
@@ -39,52 +39,52 @@ return {
             vim.cmd.colorscheme("tokyonight")
         end,
     },
-    --  {
-    --    "rebelot/kanagawa.nvim",
-    --    priority = 1001,
-    --    config = function()
-    --      -- We set tokyonight as the default
-    --      --vim.cmd.colorscheme("kanagawa")
-    --      --vim.cmd.colorscheme("kanagawa-dragon") 
-    --      --vim.cmd.colorscheme("kanagawa-wave") -- good
-    --      -- vim.cmd.colorscheme("kanagawa-lotus") -- flashbang, do not try
-    --    end,
-    --  },
-    -- {
-    --     "catppuccin/nvim",
-    --     name = "catppuccin",
-    --     priority = 1002,
-    --     config = function()
-    --         -- vim.cmd.colorscheme("catppuccin-latte")
-    --         -- vim.cmd.colorscheme("catppuccin-frappe")
-    --         vim.cmd.colorscheme("catppuccin-macchiato")
-    --         -- vim.cmd.colorscheme("catppuccin-mocha")
-    --     end,
-    --
-    -- },
-    --
-    --  {
-    --      "EdenEast/nightfox.nvim",
-    --      name = "nightfox",
-    --      priority = 1003,
-    --      config = function()
-    --          --vim.cmd.colorscheme("nightfox")
-    --          --vim.cmd.colorscheme("catppuccin-frappe")
-    --          --vim.cmd.colorscheme("catppuccin-macchiato")
-    --          --vim.cmd.colorscheme("catppuccin-mocha")
-    --      end,
-    --
-    --  },
-    --  {
-    --    "nickkadutskyi/jb.nvim",
-    --    priority = 1004,
-    --    config = function()
-    --        -- Options: "jb-regular", "jb-dark", "jb-light"
-    --        -- "jb-regular" is the Classic Darcula
-    --        -- "jb-dark" is the New UI Dark
-    --        vim.cmd.colorscheme("jb")
-    --    end,
-    --}
+     {
+       "rebelot/kanagawa.nvim",
+       priority = 1001,
+       -- config = function()
+       --   -- We set tokyonight as the default
+       --   --vim.cmd.colorscheme("kanagawa")
+       --   --vim.cmd.colorscheme("kanagawa-dragon") 
+       --   --vim.cmd.colorscheme("kanagawa-wave") -- good
+       --   -- vim.cmd.colorscheme("kanagawa-lotus") -- flashbang, do not try
+       -- end,
+     },
+    {
+        "catppuccin/nvim",
+        name = "catppuccin",
+        priority = 1002,
+        -- config = function()
+        --     -- vim.cmd.colorscheme("catppuccin-latte")
+        --     -- vim.cmd.colorscheme("catppuccin-frappe")
+        --     -- vim.cmd.colorscheme("catppuccin-macchiato")
+        --     -- vim.cmd.colorscheme("catppuccin-mocha")
+        -- end,
+
+    },
+
+     {
+         "EdenEast/nightfox.nvim",
+         name = "nightfox",
+         priority = 1003,
+         -- config = function()
+         --     --vim.cmd.colorscheme("nightfox")
+         --     --vim.cmd.colorscheme("catppuccin-frappe")
+         --     --vim.cmd.colorscheme("catppuccin-macchiato")
+         --     --vim.cmd.colorscheme("catppuccin-mocha")
+         -- end,
+
+     },
+     {
+       "nickkadutskyi/jb.nvim",
+       priority = 1004,
+       -- config = function()
+       --     -- Options: "jb-regular", "jb-dark", "jb-light"
+       --     -- "jb-regular" is the Classic Darcula
+       --     -- "jb-dark" is the New UI Dark
+       --     vim.cmd.colorscheme("jb")
+       -- end,
+    }
     -- {
     --     "navarasu/onedark.nvim",
     --     priority = 1000,
