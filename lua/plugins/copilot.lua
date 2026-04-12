@@ -8,7 +8,7 @@ return {
             require("copilot").setup({
                 suggestion = {
                     enabled = true,
-                    auto_trigger = true,
+                    auto_trigger = false,
                     keymap = {
                         accept = "<C-l>", -- Accept ghost text with Ctrl+L
                         next = "<M-]>",

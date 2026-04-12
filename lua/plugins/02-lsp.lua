@@ -38,9 +38,9 @@ return {
                     "csharp_ls", "clangd", "jdtls", "java-debug-adapter", 
                     "java-test", "tinymist", "prettierd", "prettier",
                     "typescript-language-server", "svelte-language-server", "netcoredbg",
-                    -- NEW: Added HTML, CSS, and Emmet to Mason
                     "html-lsp", "css-lsp", "emmet-language-server" ,
-                    "tailwindcss-language-server" -- <-- ADD THIS HERE
+                    "tailwindcss-language-server",
+
                 }
             })
         end,
@@ -55,8 +55,7 @@ return {
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
             require("mason-lspconfig").setup({
-                -- NEW: Added html, cssls, and emmet_ls to ensure_installed
-                ensure_installed = { "csharp_ls", "tinymist", "ts_ls", "html", "cssls", "emmet_language_server", "tailwindcss" },
+                ensure_installed = { "csharp_ls", "tinymist", "ts_ls", "html", "cssls", "emmet_language_server", "tailwindcss", "clangd" },
 
                 handlers = {
                     -- Default handler (this will automatically catch and setup html and cssls correctly)
@@ -161,6 +160,9 @@ return {
                     json = { "prettier" },
                     svelte = { "prettier" },
 
+                    cpp = { "clang-format" },
+                    c = { "clang-format" },
+
                     -- javascript = { "prettier" },
                     -- typescript = { "prettier" },
                     -- html = { "prettier" },
@@ -170,6 +172,9 @@ return {
                 formatters = {
                     prettier = {
                         prepend_args = { "--plugin", "@prettier/plugin-xml" },
+                    },
+                    ["clang-format"] = {
+                        prepend_args = { "--style={IndentWidth: 4, TabWidth: 4, UseTab: Never}" },
                     },
                     xamlstyler = {
                         command = "xstyler",
@@ -194,6 +199,7 @@ return {
                     timeout_ms = 3000,
                     lsp_fallback = false,
                 },
+
             })
 
             -- THE FIX: Strip BOM <feff> on save
