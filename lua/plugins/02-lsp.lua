@@ -154,7 +154,7 @@ return {
                     xaml = { "xamlstyler" },
 
                     javascript = { "prettier" },
-                    typescript = { "prettierd" },
+                    typescript = { "prettierd", "prettier", stop_after_first = true },
                     html = { "prettier" },
                     css = { "prettier" },
                     json = { "prettier" },
