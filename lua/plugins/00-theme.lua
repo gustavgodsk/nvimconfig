@@ -7,10 +7,10 @@ return {
   --   event = foo, 
   --   config = bar
   --   end,
-        -- config = function()
+        config = function()
         --     vim.opt.background = "dark", -- set this to dark or light
-        --     vim.cmd("colorscheme oxocarbon")
-        -- end,
+            vim.cmd.colorscheme("oxocarbon")
+        end,
 },
     {
         "folke/tokyonight.nvim",
@@ -36,7 +36,7 @@ return {
             })
 
             -- 2. Load the colorscheme AFTER setting up
-            vim.cmd.colorscheme("tokyonight")
+            -- vim.cmd.colorscheme("tokyonight")
         end,
     },
      {

@@ -1,5 +1,6 @@
 -- ~/.config/nvim/lua/config/options.lua
  -- views can only be fully collapsed with the global statusline
+vim.o.termguicolors = true
 vim.o.laststatus = 3
 -- 1. Create a highlight group with the 'inverse' attribute
 vim.api.nvim_set_hl(0, 'InsertCursor', { fg = '#000000', bg = '#ffffff' })

@@ -10,6 +10,16 @@ vim.keymap.set({ 'n' }, '<C-j>', '<C-w>j')
 vim.keymap.set({ 'n' }, '<C-k>', '<C-w>k')
 vim.keymap.set({ 'n' }, '<C-l>', '<C-w>l')
 
+-- Jump straight to tab N with <C-1>..<C-9> (and last tab with <C-0>)
+for i = 1, 9 do
+  vim.keymap.set({ 'n', 'i', 't' }, '<C-' .. i .. '>', function()
+    if i <= vim.fn.tabpagenr('$') then
+      vim.cmd(i .. 'tabnext')
+    end
+  end, { desc = 'Go to tab ' .. i })
+end
+vim.keymap.set({ 'n', 'i', 't' }, '<C-0>', '<cmd>tablast<cr>', { desc = 'Go to last tab' })
+
 vim.keymap.set("n", '<leader>o', 'o<Esc>')
 vim.keymap.set("n", '<leader>O', 'O<Esc>')
 -- vim.keymap.set("i", '<A-;>', '<Esc>')

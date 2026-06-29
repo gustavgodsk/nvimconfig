@@ -171,7 +171,9 @@ return {
                 },
                 formatters = {
                     prettier = {
-                        prepend_args = { "--plugin", "@prettier/plugin-xml" },
+                        condition = function(self, ctx)
+                            return vim.loop.fs_realpath(ctx.filename) ~= nil
+                        end,
                     },
                     ["clang-format"] = {
                         prepend_args = { "--style={IndentWidth: 4, TabWidth: 4, UseTab: Never}" },
