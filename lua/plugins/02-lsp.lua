@@ -186,6 +186,21 @@ return {
                 },
                 formatters = {
                     prettier = {
+                        -- Prefer the PROJECT-LOCAL prettier so the editor uses the
+                        -- exact same binary/version/plugins as `bun run format`.
+                        -- The built-in only searches `node_modules/.bin/prettier.cmd`
+                        -- on Windows, but `bun install` writes a `prettier.exe` shim,
+                        -- so conform misses it and silently falls back to Mason's
+                        -- global prettier (different version/plugin resolution ->
+                        -- different output). Search both shim styles first; fall
+                        -- back to the global prettier only if no local one exists.
+                        -- (cwd/args are inherited from the built-in, so config
+                        --  discovery still resolves apps/web/.prettierrc.)
+                        command = require("conform.util").find_executable({
+                            "node_modules/.bin/prettier.cmd",
+                            "node_modules/.bin/prettier.exe",
+                            "node_modules/.bin/prettier",
+                        }, "prettier"),
                         condition = function(self, ctx)
                             return vim.loop.fs_realpath(ctx.filename) ~= nil
                         end,

@@ -88,13 +88,24 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Actions", buffer = ev.buf })
 
     -- Format on save
-    -- Now this will only run if the client passed the check above!
-    if client.supports_method("textDocument/formatting") then
+    -- Only let the LSP format on save when conform has NO formatter for this
+    -- buffer. Where conform owns the filetype (html/css/js/ts/svelte/json via
+    -- prettier, xml via xamlstyler, c/cpp via clang-format, ...) it runs its
+    -- own BufWritePre formatter. If the LSP also formatted here, two formatters
+    -- would fight on save -- e.g. the html LSP reflows app.html differently than
+    -- prettier, so the CLI's `prettier --check` then rejects the editor's output.
+    -- (conform's own `lsp_fallback = false` does NOT prevent this: it only
+    --  governs conform's fallback, not this independent autocmd.)
+    local conform_ok, conform = pcall(require, "conform")
+    local conform_owns_buffer = conform_ok
+      and not vim.tbl_isempty(conform.list_formatters(ev.buf))
+
+    if client.supports_method("textDocument/formatting") and not conform_owns_buffer then
       vim.api.nvim_create_autocmd("BufWritePre", {
         buffer = ev.buf,
         callback = function()
           if not client.is_stopped() then
-             vim.lsp.buf.format({ async = false, id = client.id }) 
+             vim.lsp.buf.format({ async = false, id = client.id })
           end
         end,
       })
