@@ -9,7 +9,11 @@ return {
   --   end,
         config = function()
         --     vim.opt.background = "dark", -- set this to dark or light
-            vim.cmd.colorscheme("oxocarbon")
+            -- oxocarbon has the lowest priority of the theme plugins, so its
+            -- config runs LAST -- the right place to apply the persisted scheme
+            -- (all other theme plugins are already loaded by now). Falls back to
+            -- oxocarbon when nothing is saved yet.
+            require("config.theme").apply_saved("oxocarbon")
         end,
 },
     {

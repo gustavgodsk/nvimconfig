@@ -1,5 +1,9 @@
 -- ~/.config/nvim/lua/config/core.lua
 
+-- Persist the colorscheme across sessions (saved by <leader>th / :colorscheme,
+-- re-applied on startup in plugins/00-theme.lua).
+require("config.theme").setup()
+
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
   callback = function()
