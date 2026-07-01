@@ -54,6 +54,21 @@ return {
         config = function()
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
+            -- mason-lspconfig v2 dropped `handlers`; it auto-enables installed
+            -- servers and expects native `vim.lsp.config` for per-server settings.
+            -- Apply cmp completion capabilities to every server.
+            vim.lsp.config("*", { capabilities = capabilities })
+
+            -- Silence "Unknown at rule" for Tailwind v4 at-rules
+            -- (@theme, @apply, @plugin, @custom-variant, etc.)
+            vim.lsp.config("cssls", {
+                settings = {
+                    css = { lint = { unknownAtRules = "ignore" } },
+                    scss = { lint = { unknownAtRules = "ignore" } },
+                    less = { lint = { unknownAtRules = "ignore" } },
+                },
+            })
+
             require("mason-lspconfig").setup({
                 ensure_installed = { "csharp_ls", "tinymist", "ts_ls", "html", "cssls", "emmet_language_server", "tailwindcss", "clangd" },
 
